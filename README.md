@@ -6,6 +6,8 @@ The goal is to establish whether Apple TV, Disney+, HBO Max, Netflix and YouTube
 
 ## Start here
 
+Read [CONTEXT.md](CONTEXT.md) first for the practical question, prior user-provided browser observations, shipping-component hypothesis and FACT / INFERENCE / UNKNOWN evidence rules. For a fresh investigation once Frame is physically connected, use [START.md](START.md) as the session prompt; its opening statement describes that future session, not a recorded hardware result. Read the current documentation and CLI help before acting on the device.
+
 Run from this directory with Python 3.10 or newer:
 
 ```sh
@@ -115,4 +117,8 @@ An actual MediaDrm session security result is kept separate from plugin properti
 - [Implementation notes and verified limitations](IMPLEMENTATION_NOTES.md)
 - [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
 
-No Git repository was initialised and nothing was committed. Builds, device config, generated videos and result bundles are ignored by the supplied `.gitignore`.
+## Repository scope
+
+Git is initialised on `main` inside `frame-media-lab/`, with initial commit `fe54a6d` (`Initial commit of Frame Media Lab`). The parent directory, `../Lepton/` and `../LEPTON_MEDIA_INVESTIGATION.md` are outside this repository. Keep those sibling resources alongside the toolkit for source investigation; cloning this repository alone will not include them.
+
+Source, documentation, tests and synthetic fixture definitions are tracked. Builds, local device configuration, generated videos, signing keys and result-bundle contents are excluded by `.gitignore`; `results/.gitkeep` preserves the empty results directory.
