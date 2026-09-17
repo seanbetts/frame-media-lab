@@ -1,0 +1,10 @@
+{
+  "synthetic": true,
+  "description": "Entirely invented test fixture. Not a shipping Frame observation.",
+  "host": {"os_release": "NAME=SYNTHETIC SteamOS\nVERSION_ID=fixture", "uname": "Linux SYNTHETIC arm64"},
+  "lepton_ps": "dev (10.0.0.2, adb on 5556, gdb on 6000, lldb on 7000, packages: org.framemedialab.diagnostics)",
+  "getprop": "[ro.build.version.release]: [14]\n[ro.build.version.sdk]: [34]\n[ro.build.fingerprint]: [SYNTHETIC/fixture/NOT_A_DEVICE]\n[ro.product.model]: [SYNTHETIC Frame]\n[ro.product.manufacturer]: [SYNTHETIC]\n[ro.product.cpu.abilist]: [arm64-v8a]\n[lepton.headless]: [false]\n[debug.stagefright.ccodec]: [0]",
+  "packages": "package:/data/app/fixture.apk=org.framemedialab.diagnostics",
+  "diagnostics": {"schema_version": 1, "synthetic": true, "complete": true, "timestamp": "2000-01-01T00:00:00Z", "run_id": "SYNTHETIC", "device": {"model":"SYNTHETIC"}, "widevine": {"supported": true, "construction": "SUCCESS", "properties": {"vendor": "SYNTHETIC", "securityLevel":"L3"}, "session": {"status":"OPENED", "security_level": 1, "security_level_name":"SW_SECURE_CRYPTO"}}, "clearkey": {"supported":true,"session":{"status":"OPENED"}}, "codecs":[{"name":"SYNTHETIC.decoder.avc","mime":"video/avc","software_only":false,"hardware_accelerated":true,"secure_playback":false,"evidence":"ADVERTISED","configured":false,"actually_used":false}]},
+  "overlay": {"status":"PASS","files":[{"path":"vendor/lib64/SYNTHETIC_libcodec.so","type":"file","size":123,"permissions":"-rwxr-xr-x","owner":"root","group":"root","sha256":"synthetic-not-a-real-hash","package_owner":"SYNTHETIC package","relevant":true}],"errors":[]}
+}

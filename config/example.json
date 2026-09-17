@@ -1,0 +1,10 @@
+{
+  "host": "",
+  "ssh_user": "steamos",
+  "ssh_port": 22,
+  "adb_method": "ssh",
+  "serial": "",
+  "context": "dev",
+  "results_dir": "results",
+  "timeout": 25
+}
