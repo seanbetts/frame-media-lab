@@ -2,7 +2,7 @@
 
 A Mac-side toolkit for investigating Steam Frame's Android/Lepton media capabilities: shipping components, ordinary 2D apps, actual MediaDrm sessions, clear video decoding and authorised streaming-app playback.
 
-The goal is to establish whether Apple TV, Disney+, HBO Max, Netflix and YouTube provide a useful standalone experience. **There are no physical Frame results yet.** All three Android APKs have now compiled against Platform 35 and passed local manifest, DEX, alignment and debug-signature inspection. SDK tooling and ADB are installed; Android execution, DRM sessions and playback remain **NOT TESTED**. The build command checks prerequisites and installs nothing.
+The goal is to establish whether Apple TV, Disney+, HBO Max, Netflix and YouTube provide a useful standalone experience. **We have not yet tested a physical Frame.** All three Android APKs have now compiled against Platform 35 and passed local manifest, DEX, alignment and debug-signature inspection. SDK tooling and ADB are installed; Android execution, DRM sessions and playback remain **NOT TESTED**. The build command checks prerequisites and installs nothing.
 
 ## Start here
 
