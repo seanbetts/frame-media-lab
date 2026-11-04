@@ -1,6 +1,6 @@
 # Steam Frame media investigation: decision context
 
-Prepared 17 September 2026, before hardware arrival. **No Steam Frame has been connected or tested. All Frame runtime, DRM, decoder, headset and service-quality results remain UNKNOWN / NOT TESTED.** Local builds and synthetic reports are preparation, not device evidence.
+Prepared 17 September 2026; external evidence updated 22 October 2026, before our hardware arrival. **We have not connected or tested a Steam Frame. All of our Frame runtime, DRM, decoder, headset and service-quality results remain UNKNOWN / NOT TESTED.** Local builds and synthetic reports are preparation, not device evidence. The external source findings and third-party physical-device reports below are separately attributed.
 
 This is a reasoning handoff for a fresh coding agent. The detailed source authority is [LEPTON_MEDIA_INVESTIGATION.md](../LEPTON_MEDIA_INVESTIGATION.md), especially §§3–8 and 15. Use the current [README](README.md), [implementation notes](IMPLEMENTATION_NOTES.md) and [Android validation record](docs/ANDROID_VALIDATION.md) for toolkit behavior and the dated preparation baseline.
 
@@ -81,6 +81,54 @@ For the intended Frame use case, the observed Netflix browser 1080p is acceptabl
 
 The public defaults contain concrete concerns: software-oriented codec configuration, normal Codec2 selection disabled, protected-buffer handling that does not establish secure allocation, and no demonstrated complete protected HWC-to-host presentation route. These remain meaningful evidence about the inspected implementations; they are not immutable limits on shipping replacements.
 
+### External physical-device evidence before our Frame arrived
+
+**FACT — third-party physical-device observation:** In the [immerGallery release discussion](https://www.reddit.com/r/SteamFrame/comments/1wkxkf8/vr_media_player_app_immergallery_now_available_on/), independently opened and read on 20 September 2026, developer **immerVR** reports that their shipping Android/Lepton VR/media application plays video on physical Steam Frame hardware but cannot currently access hardware video decoding through Lepton; their tested 6K/8K videos consequently did not play smoothly. This is the developer's reported observation, **not our Frame result or an independently repeated measurement**.
+
+**INFERENCE:** This independently corroborates the public-source evidence that the visible/default Lepton media configuration does not currently establish a hardware MediaCodec decoding path. It strengthens concern about the normal/default Android media path without establishing a Frame-wide limitation.
+
+**UNKNOWN:** Whether another shipping Lepton configuration, Valve-supplied component, future software version or different Android media integration exposes hardware decoding. The report does not establish that Frame has no hardware decoder anywhere, that Valve cannot enable one, that our diagnostics will see the same inventory, or that clear 1080p/4K playback performs poorly.
+
+The exercised path is **Android/Lepton media application → video decode/playback → Frame presentation**. immerGallery is a VR/media app; this does not prove ordinary non-OpenXR 2D Activity presentation. That remains **UNKNOWN** until our flatscreen APK is tested on Frame.
+
+**Hardware video decoding and hardware-secure DRM/protected video are related but separate.** This report establishes nothing directly about Widevine, L1/L3, OEMCrypto, TEE, provisioning, secure MediaCodec, protected buffers/composition or provider certification. Frame's actual Widevine availability/security level, secure decoding and commercial-service playback remain **UNKNOWN**; Reddit L3 speculation is not adopted as evidence. The shipping-component hypothesis below remains an architectural possibility, not shipping evidence; `/usr/share/guestos/android` and the effective shipping runtime still require inspection.
+
+#### Browser streaming reports — reviewed 6 October 2026
+
+**FACT — third-party owner reports, not our measurements:** In the independently read [Streaming video thread](https://www.reddit.com/r/SteamFrame/comments/1wyqzto/streaming_video/), **Chip_Lamonica** reports visible YouTube video but audio without video for HBO Max, Netflix and Amazon, identifying their browser as Chrome. **CaseFace5** separately reports Firefox failing and the included Chromium working, without naming tested services or quality. No owner follow-up confirming the suggested browser switch was visible when reviewed.
+
+**INFERENCE:** Browser choice and presentation route warrant comparison; the failure alone does not identify DRM, decoding or capture/composition as its cause. This is separate from immerGallery's Android/Lepton result.
+
+**UNKNOWN:** The original Chrome execution route (local versus PC-streamed), versions, failing stage, actual resolution, decoder and CDM/session security. The Chromium comment is a playback lead, not service-by-service HD/4K verification. Neither report establishes Android Widevine, secure MediaCodec or ordinary Android 2D presentation. Commenters' DRM diagnoses remain speculation.
+
+#### Whirligig and alternative decode paths — reviewed 15 October 2026
+
+**FACT — third-party physical-device/developer reports:** Whirligig developer **Phil / phileday** reports testing on a Valve-supplied Frame. The [Steam announcements](https://steamcommunity.com/app/451650/allnews/) introduce an Android/Lepton beta on 27 September and describe both on-device Proton and Lepton builds in the 4 October v5.8004 release, warning that hardware video decoding is unavailable in those paths. In a [13 October v5.8005 discussion](https://steamcommunity.com/app/451650/discussions/0/583936729654912155/), an owner reports working SBS 3D playback but difficulty with 4K-and-above files; the developer reiterates the decoding limitation. These are attributed reports, not our measurements or a codec/bitrate-controlled benchmark.
+
+**INFERENCE:** This adds a second developer's corroboration of the default Lepton decoding concern. Keep Proton, Android/Lepton and native Linux results separate. The developer's [Reddit post](https://www.reddit.com/r/SteamFrame/comments/1ww3ddj/whirligig_vr_media_player_steam_frame_updates/) suggests HD/UHD may work and that enabling decoding might be simple; neither is a measured 1080p/4K guarantee or proof that changing one setting completes MediaCodec integration.
+
+**FACT — separate native/custom-path reports:** Following the developer's pointer, [MatineeVR](https://embedding-shapes.itch.io/matineevr) advertises standalone hardware-decoded local playback with a Linux ARM64 build (8-bit H.264/HEVC/VP9; no HDR/10-bit support claimed there). More specifically, [ijingo's 12 October report](https://github.com/ValveSoftware/steam-for-linux/issues/13727) says `/dev/video-dec0` was accessible on the host but absent from their stock Lepton container; exposing it in a **custom container**, together with their **direct V4L2 implementation**, reportedly enabled HEVC Main/Main10 hardware decoding. This does not establish a stock Android MediaCodec backend, protected decoding or a generally supported modification.
+
+**FACT — tracker status:** Valve's **kisak-valve** closed that GitHub issue as a duplicate of [Lepton work item #1](https://gitlab.steamos.cloud/frame-public/lepton/-/work_items/1). Its public API, checked on 15 October, identifies **phileday** as the author, creation on 30 September and state **opened**, with no description. This establishes tracking, not a delivered fix or release commitment.
+
+**UNKNOWN:** Our stock runtime's codec inventory/actual selection and practical 1080p/4K performance remain untested. These reports support path-specific hardware access, not a Frame-wide absence of decoding. They establish nothing about Widevine/security level, secure buffers/composition, provider certification, commercial-service quality or ordinary non-OpenXR Android 2D presentation. The shipping secure-media hypothesis remains an architectural possibility.
+
+#### Frame Cinema browser/service reports — reviewed 15 October 2026
+
+**FACT — third-party developer report, not our Frame result:** [Frame Cinema](https://sframelab.itch.io/frame-cinema) is offered as a Linux app for standalone Netflix, HBO Max and Disney+ viewing. Developer **eyfeldb** [identifies Google Chrome inside the cinema](https://www.reddit.com/r/SteamFrame/comments/1x6rxxm/comment/pgxyfn9/) and describes its DRM as software-only Widevine L3. They [report Netflix 1080p, HBO Max 720p and Disney+ 480p](https://www.reddit.com/r/SteamFrame/comments/1x6rxxm/comment/pgxyuar/). These are physical-Frame developer claims with no published session diagnostics or resolution-measurement method in the reviewed replies; their generalisation to all Linux browsers is not adopted.
+
+**INFERENCE:** This supplies a specific browser-based standalone service-playback comparison, rather than another Lepton decoder result. Reported Netflix/Disney+ quality resembles our prior computer-browser baseline; the HBO Max figure differs, but unmatched titles/settings prevent attributing an improvement to Frame Cinema.
+
+**UNKNOWN:** Exact browser/build/CPU execution path, hardware decoder use, measured CDM/session security, title-dependent source quality and sustained performance. Browser L3 reporting does not resolve Android MediaDrm availability/security level, secure MediaCodec, protected composition or provider certification. Apple TV is not established by this report. No installer or application was executed here; our three APKs remain runtime NOT TESTED.
+
+#### FramePlayerX native source evidence — reviewed 22 October 2026
+
+**FACT — inspected third-party source, not our hardware execution:** [FramePlayerX](https://github.com/remotesojourner/frameplayerx/tree/3732b89b37cca8f1e9ec4624a218dc46ac7713af), a fork of yellkell's FramePlayer, releases v0.12.4 at commit `3732b89b37cca8f1e9ec4624a218dc46ac7713af`. It builds for **Linux ARM64**, with OpenXR/Vulkan presentation rather than Android/Lepton. Its [V4L2 implementation](https://github.com/remotesojourner/frameplayerx/blob/3732b89b37cca8f1e9ec4624a218dc46ac7713af/crates/fp-media/src/v4l2.rs) opens `/dev/video-dec0` or a suitable alternative and implements H.264/HEVC decoding; 10-bit HEVC uses Qualcomm Q10C output. [Decoder selection](https://github.com/remotesojourner/frameplayerx/blob/3732b89b37cca8f1e9ec4624a218dc46ac7713af/crates/fp-media/src/decode.rs) tries native V4L2, applicable FFmpeg V4L2 wrappers (including VP9), then software; AV1 selects software dav1d. Candidate selection is not a measured successful decode.
+
+**FACT — documented capabilities/limits:** The project advertises local/removable-media and Jellyfin/Emby/network playback. Its [user guide](https://github.com/remotesojourner/frameplayerx/blob/3732b89b37cca8f1e9ec4624a218dc46ac7713af/docs/USER-GUIDE.md) describes an HW/SW indicator, HDR tone mapping and contention for the decoder shared with Steam streaming. These are developer claims, not independently repeated performance results; HDR tone mapping does not establish HDR headset output or protected buffers.
+
+**INFERENCE:** This provides a concrete, auditable native clear-media comparison for our practical 1080p/4K goal, strengthening the case for path-specific integration limits. It does not establish stock Lepton MediaCodec availability. **UNKNOWN:** Actual performance on our Frame, secure decoding, Widevine/session security, ordinary non-OpenXR Android 2D presentation and commercial-service quality. All three of our APKs remain runtime NOT TESTED; the shipping secure-media hypothesis remains an architectural possibility. No external app, installer or probe was run here.
+
 ## The shipping-component hypothesis
 
 **INFERENCE / architectural possibility:** Public Lepton may contain only the open-source/redistributable portion of the shipping Android environment. Proprietary, licensed, device-specific or provisioned components may legitimately live elsewhere. Potential examples are a Widevine CDM, MediaDrm vendor implementation, OEMCrypto, Qualcomm DRM/media libraries, TEE/TrustZone integration, secure hardware codec services, protected allocators, device provisioning, host DRM/media brokers and protected compositor integration.
@@ -120,7 +168,7 @@ Inspect `/usr/share/guestos/android` as a high-priority target, plus other host 
 
 The Android development environment is ready at `~/Library/Android/sdk`: Command-line Tools **22.0**, Platform **35 revision 2**, Build-Tools **35.0.0**, Platform-Tools **37.0.1**, ADB **1.0.41**, and JDK **17**. All three APKs compiled and passed independent manifest, DEX, alignment, integrity and signature validation. Packages are `org.framemedialab.flatscreen`, `org.framemedialab.diagnostics` and `org.framemedialab.media`.
 
-The latest recorded automated verification passes: **52 tests, syntax checks for 26 Python files and Ruff**. The documentation also records 15 synthetic first-hour scenarios. These are dated local results, not a promise about future checkouts. **All apps remain runtime UNTESTED; no APK has been installed or executed on Frame.** See the Android validation record for exact artifacts, API guards and retained evidence.
+The latest recorded automated verification passes: **52 tests, syntax checks for 26 Python files and Ruff**. The documentation also records 15 synthetic first-hour scenarios. These are dated local results, not a promise about future checkouts. **All three of our APKs remain runtime NOT TESTED; none has been installed or executed by us on Frame.** See the Android validation record for exact artifacts, API guards and retained evidence.
 
 ## The three Android test apps
 
@@ -136,26 +184,36 @@ Eight short generated fixtures exist: **H.264 1080p, H.264 4K, HEVC 1080p, HEVC 
 
 ## First questions when Frame arrives
 
-Investigate approximately in this order, recording unavailable evidence explicitly:
+**Hardware MediaCodec investigation now has equal importance to Widevine investigation.** Investigate approximately in this order, recording unavailable evidence explicitly; the ordering does not make either question secondary:
 
 1. What SteamOS, Lepton and Android versions actually ship?
 2. What is present in `/usr/share/guestos/android` and other shipping host integrations?
 3. Which guest components are actually loaded, rather than merely present?
 4. Does ordinary 2D Android presentation work?
-5. Is Widevine supported?
-6. Can an actual Widevine session be opened?
-7. What security level does **that session** obtain?
-8. What MediaCodec decoders are advertised?
-9. Which are reported hardware accelerated? Keep actual use separate.
-10. Which advertise secure playback?
-11. Can clear 1080p H.264 actually decode and display?
-12. Can clear 4K and other codecs actually decode and display?
+5. What video decoders does Android advertise through MediaCodec?
+6. Which are classified as hardware accelerated, and which as software? Keep advertisements separate from actual use.
+7. Which advertise secure playback? This does not establish working secure decoding.
+8. Which decoder is **actually selected** for clear H.264 1080p, and is that selected decoder actually hardware accelerated? Correlate its identity/classification with runtime evidence; record uncertainty rather than treating an advertised flag as proof.
+9. Does that clip decode and display smoothly? Record actual playback performance and headset observation alongside decoder/output evidence.
+10. Repeat decoder selection, hardware/software assessment and performance observation progressively with **H.264 4K → HEVC 1080p/4K → VP9 1080p/4K → AV1 1080p/4K**. The existing generated fixtures are suitable initial probes; prioritise practical high-quality 1080p/4K streaming, not an immediate jump to 6K/8K. Their short duration still cannot establish sustained performance.
+11. Is Widevine supported, and can an actual Widevine session be opened?
+12. What security level does **that session** obtain?
 13. Can protected video traverse the complete presentation path? Resolve this through legitimate playback; the clear player cannot answer it.
 14. Can a commercial streaming APK install and launch?
 15. Can it log in?
 16. Can it obtain a legitimate licence?
 17. Does protected video appear in the headset?
 18. What **actual source resolution** does the service provide?
+
+Compare immerGallery's reported hardware-decoding unavailability through its Lepton path with **our advertised decoder inventory + actual selected decoder + actual 1080p/4K playback**. Finding a hardware decoder would be materially different and should trigger investigation of why the environments/paths differ, while retaining the advertised-versus-used distinction. Software-only inventory and actual decoding would independently reproduce/corroborate the developer's finding for our tested configuration, without resolving DRM or generalising to every Lepton configuration.
+
+Include Whirligig as a second external comparison, recording the exact app build, selected compatibility tool and video backend. Inspect host versus guest decoder-device visibility read-only alongside the effective shipping components. Native Linux and custom V4L2 reports are separate comparison evidence; preserve the **unmodified shipping baseline** and do not apply their patches during initial investigation. Hardware MediaCodec and Widevine remain equal priorities, starting with our existing 1080p/4K fixtures.
+
+FramePlayerX is an optional later **native clear-media comparison** using the same fixtures: record its exact version, actual HW/SW selection, performance and any competing decoder sessions. Its documented `--decode-bench FILE [--sw]` measures decoding without display; keep that separate from headset-visible playback. Do not substitute its native decoder inventory or results for our Android diagnostics.
+
+Establish a separate **Frame built-in browser baseline** early: record browser/version and whether execution is local or PC-streamed, then test YouTube and legitimate service playback in the headset. Compare the same service/title through another browser where available, recording visible video, audio and actual source resolution. Keep browser CDM/decoder evidence separate from Android MediaDrm/MediaCodec evidence; neither an audio-only failure nor visible browser playback resolves the Lepton questions.
+
+Use Frame Cinema's reported service resolutions as comparison targets, not acceptance results. If tested later, compare the same titles/accounts/settings with direct browser playback and verify actual source dimensions; a cinema environment alone does not establish improved stream quality. Preserve the separate Android MediaCodec/Widevine investigation.
 
 ## Service priority and success criteria
 
