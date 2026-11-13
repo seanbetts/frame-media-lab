@@ -1,6 +1,6 @@
 # Steam Frame media investigation: decision context
 
-Prepared 17 September 2026; external evidence updated 22 October 2026, before our hardware arrival. **We have not connected or tested a Steam Frame. All of our Frame runtime, DRM, decoder, headset and service-quality results remain UNKNOWN / NOT TESTED.** Local builds and synthetic reports are preparation, not device evidence. The external source findings and third-party physical-device reports below are separately attributed.
+Prepared 17 September 2026; external evidence updated 22 October; first physical-device session recorded **13 November 2026**. **Read the [dated Frame session results](docs/FRAME_SESSION_2026-11-13.md) for current first-hand evidence:** local Chromium playback, ordinary Android 2D presentation and selected clear-video formats now work. Corrected Android API probes reject Widevine/ClearKey construction; no L1/L3 session was obtained. FramePlayerX now connects to Jellyfin and Sean reports smooth, sharp player-reported 4K24 viewing after initial buffering. Android protected playback remains untested; native decoder/performance metrics are unmeasured. Pre-hardware and dated external reports below retain their historical scope; the session note supersedes their statements about what we have personally tested. Synthetic reports remain preparation, not device evidence.
 
 This is a reasoning handoff for a fresh coding agent. The detailed source authority is [LEPTON_MEDIA_INVESTIGATION.md](../LEPTON_MEDIA_INVESTIGATION.md), especially §§3–8 and 15. Use the current [README](README.md), [implementation notes](IMPLEMENTATION_NOTES.md) and [Android validation record](docs/ANDROID_VALIDATION.md) for toolkit behavior and the dated preparation baseline.
 
@@ -168,7 +168,7 @@ Inspect `/usr/share/guestos/android` as a high-priority target, plus other host 
 
 The Android development environment is ready at `~/Library/Android/sdk`: Command-line Tools **22.0**, Platform **35 revision 2**, Build-Tools **35.0.0**, Platform-Tools **37.0.1**, ADB **1.0.41**, and JDK **17**. All three APKs compiled and passed independent manifest, DEX, alignment, integrity and signature validation. Packages are `org.framemedialab.flatscreen`, `org.framemedialab.diagnostics` and `org.framemedialab.media`.
 
-The latest recorded automated verification passes: **52 tests, syntax checks for 26 Python files and Ruff**. The documentation also records 15 synthetic first-hour scenarios. These are dated local results, not a promise about future checkouts. **All three of our APKs remain runtime NOT TESTED; none has been installed or executed by us on Frame.** See the Android validation record for exact artifacts, API guards and retained evidence.
+The pre-hardware verification recorded **52 tests, syntax checks for 26 Python files and Ruff**, plus 15 synthetic first-hour scenarios. On 13 November, all three helpers executed on Frame. Necessary media EOF and independent DRM-query fixes bring the passing suite to **55 tests**, syntax checks to **28 Python files**, plus Ruff. See the [dated session note](docs/FRAME_SESSION_2026-11-13.md) for actual runtime boundaries and updated artifact provenance. The Android validation record retains the original preparation artifacts and API audit.
 
 ## The three Android test apps
 

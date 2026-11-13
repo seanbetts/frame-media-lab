@@ -2,11 +2,11 @@
 
 A Mac-side toolkit for investigating Steam Frame's Android/Lepton media capabilities: shipping components, ordinary 2D apps, actual MediaDrm sessions, clear video decoding and authorised streaming-app playback.
 
-The goal is to establish whether Apple TV, Disney+, HBO Max, Netflix and YouTube provide a useful standalone experience. **We have not yet tested a physical Frame.** All three Android APKs have now compiled against Platform 35 and passed local manifest, DEX, alignment and debug-signature inspection. SDK tooling and ADB are installed; Android execution, DRM sessions and playback remain **NOT TESTED**. The build command checks prerequisites and installs nothing.
+The goal is to establish whether Apple TV, Disney+, HBO Max, Netflix and YouTube provide a useful standalone experience. **Physical Frame testing began on 13 November 2026.** Local Chromium playback works for all five services; only YouTube's source resolution has been measured (4K24). All three Android helpers have executed: ordinary 2D presentation/input and several short clear-video tests work, while other formats fail before video decoder selection. The corrected DRM probe finds Widevine/ClearKey construction rejected in the tested Android session; no L1/L3 session was obtained. Native FramePlayerX v0.18.0 also connects to Jellyfin and provides satisfactory player-reported 4K24 viewing after initial buffering. Read the [dated session results](docs/FRAME_SESSION_2026-11-13.md) for the evidence and limits. SDK tooling and ADB are installed; the build command checks prerequisites and installs nothing.
 
 ## Start here
 
-Read [CONTEXT.md](CONTEXT.md) first for the practical question, prior user-provided browser observations, shipping-component hypothesis and FACT / INFERENCE / UNKNOWN evidence rules. For a fresh investigation once Frame is physically connected, use [START.md](START.md) as the session prompt; its opening statement describes that future session, not a recorded hardware result. Read the current documentation and CLI help before acting on the device.
+Read [CONTEXT.md](CONTEXT.md) first for the practical question, prior user-provided browser observations, shipping-component hypothesis and FACT / INFERENCE / UNKNOWN evidence rules. Use [START.md](START.md) as the arrival checklist, alongside the [dated session results](docs/FRAME_SESSION_2026-11-13.md) to identify completed tests and remaining work. Read the current documentation and CLI help before acting on the device.
 
 Run from this directory with Python 3.10 or newer:
 
