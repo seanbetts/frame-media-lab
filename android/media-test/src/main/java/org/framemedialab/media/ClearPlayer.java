@@ -178,10 +178,13 @@ final class ClearPlayer {
                     int slot=decoder.dequeueInputBuffer(10000);
                     if(slot>=0) {
                         ByteBuffer buffer=decoder.getInputBuffer(slot); if(buffer==null) throw new IllegalStateException();
-                        if((input.getSampleFlags() & MediaExtractor.SAMPLE_FLAG_ENCRYPTED)!=0) throw new SecurityException("Clear content only");
                         int size=input.readSampleData(buffer,0);
                         if(size<0) { decoder.queueInputBuffer(slot,0,0,0,MediaCodec.BUFFER_FLAG_END_OF_STREAM); inputEnd=true; }
-                        else { decoder.queueInputBuffer(slot,0,size,input.getSampleTime(),0); input.advance(); }
+                        else {
+                            // At EOF the flags can be -1, which includes every flag bit.
+                            if((input.getSampleFlags() & MediaExtractor.SAMPLE_FLAG_ENCRYPTED)!=0) throw new SecurityException("Clear content only");
+                            decoder.queueInputBuffer(slot,0,size,input.getSampleTime(),0); input.advance();
+                        }
                         progress=true;
                     }
                 }

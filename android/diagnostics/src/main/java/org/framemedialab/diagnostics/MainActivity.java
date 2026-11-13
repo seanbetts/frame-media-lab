@@ -113,7 +113,13 @@ public final class MainActivity extends Activity {
         MediaDrm drm = null; byte[] sessionId = null;
         try {
             put(result, "supported", MediaDrm.isCryptoSchemeSupported(uuid));
-            // Construct separately: support query is only a capability advertisement.
+            put(result, "support_query_status", "SUCCESS");
+        } catch (Exception e) {
+            put(result, "support_query_status", "ERROR");
+            put(result, "support_query_error", error(e));
+        }
+        // A failed advertisement must not prevent the independent construction/session test.
+        try {
             drm = new MediaDrm(uuid); put(result, "construction", "SUCCESS");
             for (String name : SAFE_PROPERTIES) {
                 try { put(properties, name, drm.getPropertyString(name)); }

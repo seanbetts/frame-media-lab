@@ -58,7 +58,10 @@ def assess_drm(data):
     status = session.get("status", "NOT TESTED")
     return {
         "supported": data.get("supported", "UNKNOWN"),
+        "support_query_status": data.get("support_query_status", "NOT TESTED"),
+        "support_query_error": data.get("support_query_error"),
         "construction": data.get("construction", "NOT TESTED"),
+        "construction_error": data.get("error"),
         "properties": data.get("properties", {}),
         "session_status": status,
         "actual_session": session.get("security_level_name", "UNKNOWN")

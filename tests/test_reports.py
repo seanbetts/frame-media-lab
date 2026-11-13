@@ -11,6 +11,21 @@ TEST_TMP.mkdir(parents=True, exist_ok=True)
 
 
 class ReportsTests(unittest.TestCase):
+    def test_drm_query_error_stays_separate_from_a_successful_session(self):
+        result = assess_drm(
+            {
+                "supported": None,
+                "support_query_status": "ERROR",
+                "support_query_error": "IllegalArgumentException",
+                "construction": "SUCCESS",
+                "session": {"status": "OPENED", "security_level_name": "SW_SECURE_CRYPTO"},
+            }
+        )
+        self.assertEqual(result["actual_session"], "SW_SECURE_CRYPTO")
+        self.assertEqual(result.get("support_query_status"), "ERROR")
+        self.assertEqual(result.get("support_query_error"), "IllegalArgumentException")
+        self.assertEqual(result["protected_playback"], "NOT TESTED")
+
     def test_no_l1_from_property_or_ads(self):
         self.assertEqual(
             assess_drm({"supported": True, "properties": {"securityLevel": "L1"}})[
